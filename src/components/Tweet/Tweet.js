@@ -2,17 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+
 import LikeButton from '../LikeButton';
 
 import Action from './Action';
 import TweetActionIcon from './TweetActionIcon';
+
+
 
 const propTypes = {
   displayName: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   avatarSrc: PropTypes.string.isRequired,
   tweetContents: PropTypes.string.isRequired,
+  numOfLikes: PropTypes.number.isRequired,
+  isLikedByCurrentUser: PropTypes.bool.isRequired,
+  numOfRetweets: PropTypes.number.isRequired,
+  isRetweetedByCurrentUser: PropTypes.bool.isRequired,
+  handleToggleLike: PropTypes.func.isRequired,
+  handleToggleRetweet: PropTypes.func.isRequired,
 };
+
+
 
 const Tweet = ({
   displayName,
@@ -26,6 +37,7 @@ const Tweet = ({
   isRetweetedByCurrentUser,
   handleToggleLike,
   handleToggleRetweet,
+
 }) => {
   return (
     <Wrapper>
@@ -38,6 +50,12 @@ const Tweet = ({
       </Header>
 
       <TweetContents>{tweetContents}</TweetContents>
+      <Timestamp>{timestamp}</Timestamp>
+
+      <Stats>
+        <div><span>{numOfRetweets}</span> Retweets</div>
+        <div><span>{numOfLikes}</span> Likes</div>
+      </Stats>
 
       <Divider />
 
@@ -52,6 +70,7 @@ const Tweet = ({
           <TweetActionIcon kind="reply" />
         </Action>
 
+        {/* REtweet  */}
         <Action
           color="rgb(23, 191, 99)"
           size={40}
@@ -60,13 +79,17 @@ const Tweet = ({
           <TweetActionIcon
             kind="retweet"
             color={isRetweetedByCurrentUser ? 'rgb(23, 191, 99)' : undefined}
+
           />
         </Action>
 
+        {/* LIKE BUTTON */}
         <Action color="rgb(224, 36, 94)" size={40} onClick={handleToggleLike}>
-          <LikeButton isLiked={isLikedByCurrentUser} />
+          <LikeButton
+            isLiked={isLikedByCurrentUser} />
         </Action>
 
+        {/* SHARE BUTTON */}
         <Action
           color="rgb(27, 149, 224)"
           size={40}
@@ -142,7 +165,17 @@ const Divider = styled.div`
 const Stats = styled.div`
   display: flex;
   align-items: center;
+  
   height: 48px;
+  div{
+    padding-right: 20px; 
+    color: #646D73;
+    span{
+      font-weight: bold;
+      color:black;
+    }
+
+  }
 `;
 
 const Actions = styled.div`
